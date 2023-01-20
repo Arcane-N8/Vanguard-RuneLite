@@ -23,7 +23,7 @@ public class Configuration {
 	 * Cache version is written to the cache folder inside a version file.
 	 * This is read on startup to tell if the cache is out of date or not.
 	 */
-	public static final int CACHE_VERSION = 105; // Change this up one when making cache updates.
+	public static final int CACHE_VERSION = 106; // Change this up one when making cache updates.
 
 	public static final String CACHE_LINK = "http://vanguard317.com/resources/cache.zip";
 
