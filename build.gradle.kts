@@ -30,7 +30,7 @@ plugins {
 configure<com.mark.bootstrap.BootstrapPluginExtension> {
     uploadType.set(com.mark.bootstrap.UploadType.FTP)
     releaseType.set("beta")
-    baseLink.set("https://runedecay.com/")
+    baseLink.set("https://vanguard317.com/")
     passiveMode.set(false)
 
 }
