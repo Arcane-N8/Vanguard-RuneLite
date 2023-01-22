@@ -26,6 +26,7 @@ import java.net.URL;
 
 public abstract class GameEngine extends Applet implements Runnable, WindowListener, RSGameEngine, FocusListener {
 
+
     MouseWheelHandler mouseWheelHandler;
     public static TaskHandler taskHandler;
     static GameEngine gameEngine;
@@ -202,6 +203,10 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
         }
     }
 
+    protected final void setUpKeyboard() {
+        KeyHandler.instance.method355(this.canvas);
+    }
+
     protected abstract void resizeGame();
 
     void clearBackground() {
@@ -287,17 +292,13 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
             setFullRedraw(false);
             return;
         }
-        this.canvas.removeMouseListener(MouseHandler.instance);
-        this.canvas.removeMouseMotionListener(MouseHandler.instance);
-        this.canvas.removeFocusListener(MouseHandler.instance);
+        KeyHandler.instance.method352(this.canvas);
         MouseHandler.currentButton = 0;
         if (this.mouseWheelHandler != null) {
             this.mouseWheelHandler.removeFrom(this.canvas);
         }
         addCanvas();
-        this.addMouseListener(MouseHandler.instance);
-        this.addMouseMotionListener(MouseHandler.instance);
-        this.addFocusListener(MouseHandler.instance);
+        KeyHandler.instance.method352(this.canvas);
         if (this.mouseWheelHandler != null) {
             this.mouseWheelHandler.addTo(this.canvas);
         }
@@ -379,6 +380,7 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
         }
         isCanvasInvalid = false;
         field185 = method2692();
+        setUpKeyboard();
     }
 
 
@@ -718,8 +720,6 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
     public Clipboard clipboard;
 
     public final void setupKeys() {
-        this.canvas.addKeyListener(KeyHandler.instance);
-        this.canvas.addFocusListener(KeyHandler.instance);
         setUpClipboard();
     }
 

@@ -7,6 +7,7 @@ import net.runelite.api.KeyCode;
 import net.runelite.api.events.FocusChanged;
 import net.runelite.rs.api.RSKeyHandler;
 
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -26,6 +27,12 @@ public final class KeyHandler implements KeyListener, FocusListener, RSKeyHandle
     private int writeIndex;
     int keyPressed = 0;
     public static volatile int idleCycles = 0;
+
+    public synchronized void method352(Component var1) {
+        var1.removeKeyListener(this);
+        var1.removeFocusListener(this);
+    }
+
 
     @Override
     public void focusGained(FocusEvent e) {}
@@ -57,7 +64,6 @@ public final class KeyHandler implements KeyListener, FocusListener, RSKeyHandle
         Client.instance.getCallbacks().keyPressed(event);
         if (!event.isConsumed())
         {
-            System.out.println(event.getKeyCode());
             int i = event.getKeyCode();
             if(i == KeyEvent.VK_SHIFT) {
                 keyPressed = KeyCode.KC_SHIFT;
@@ -252,6 +258,12 @@ public final class KeyHandler implements KeyListener, FocusListener, RSKeyHandle
                 keyArray[c] = 0;
         }
 
+    }
+
+    public void method355(Component var1) {
+        var1.setFocusTraversalKeysEnabled(false);
+        var1.addKeyListener(this);
+        var1.addFocusListener(this);
     }
 
 }

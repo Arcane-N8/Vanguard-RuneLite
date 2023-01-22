@@ -16,6 +16,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -2941,9 +2942,6 @@ public class Client extends GameEngine implements RSClient {
 				drawTabs(xOffset,yOffset);
 		}
 		int y = stackTabs() ? 73 : 37;
-		drawHpBar(xOffset,yOffset);
-		drawPrayerBar(xOffset,yOffset);
-
 
 		// Set open tab to one that has an interface
 		if (tabInterfaceIDs[tabID] <= 0) {
@@ -3022,82 +3020,8 @@ public class Client extends GameEngine implements RSClient {
 	Sprite hpBarSprite = new Sprite("bars/hp");
 	Sprite prayerBarSprite = new Sprite("bars/prayer");
 
-	private void drawHpBar(int xOffset,int yOffset) {
-		try {
-			int offsetX = xOffset;
-			int offsetY = yOffset;
-			int offsetX2 = 0;
-			int offsetWidth = 0;
-			if (Client.instance.isResized()) {
-				offsetX = canvasWidth - 246;
-				offsetY = canvasHeight - 337;
-				// if (changeTabArea) {
-				offsetX += 2;
-				offsetY -= 30;
-				offsetX2 -= 3;
-				offsetWidth -= 6;
-				if (canvasWidth >= 1000)
-					offsetY += 36;
-				// }
-			}
-			int level = currentLevels[3];
-			int max = maximumLevels[3];
-			if (max == 0)
-				max = 1;
-			if (level > max)
-				level = max;
-			int percent = level * 100 / max;
-			int toPixels = -250 * percent / 100;
-			TextDrawingArea.drawRectangle(offsetX + 12, offsetY + 43, offsetWidth + 18, 250, 0x771111);
-			TextDrawingArea.drawTransparentBox(offsetX + 12, offsetY + 43, offsetWidth + 18, 250, 0x000000, 125);
-			TextDrawingArea.drawTransparentBox(offsetX + 12, offsetY + 293 + toPixels, offsetWidth + 18,
-					250 * percent / 100, 0xaa0000, 100);
-			newSmallFont.drawCenteredString(Integer.toString(currentLevels[3]), offsetX2 + offsetX + 21, offsetY + 74,
-					0xffffff, 1);
-			hpBarSprite.drawSprite(offsetX2 + offsetX + 14, offsetY + 45);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	private void drawPrayerBar(int xOffset,int yOffset) {
-		try {
-			int offsetX = xOffset;
-			int offsetY = yOffset;
-			int offsetX2 = 0;
-			int offsetWidth = 0;
-			if (Client.instance.isResized()) {
-				offsetX = canvasWidth - 247;
-				offsetY = canvasHeight - 337;
-				// if (changeTabArea) {
-				offsetX -= 193;
-				offsetY -= 30;
-				offsetX2 -= 3;
-				offsetWidth -= 6;
-				if (canvasWidth >= 1000)
-					offsetY += 36;
-				// }
-			}
 
 
-			int level = currentLevels[5];
-			int max = maximumLevels[5];
-			if (max == 0)
-				max = 1;
-			int percent = level * 100 / max;
-			int toPixels = -250 * percent / 100;
-			TextDrawingArea.drawRectangle(offsetX + 222, offsetY + 43, offsetWidth + 18, 250, 0x118963);
-			TextDrawingArea.drawTransparentBox(offsetX + 222, offsetY + 43, offsetWidth + 18, 250, 0x000000, 125);
-			TextDrawingArea.drawTransparentBox(offsetX + 222, offsetY + 293 + toPixels, offsetWidth + 18,
-					250 * percent / 100, 0x00d9b3, 100);
-			newSmallFont.drawCenteredString(Integer.toString(level), offsetX2 + offsetX + 231, offsetY + 74, 0xffffff,
-					1);
-			prayerBarSprite.drawSprite(offsetX2 + offsetX + 224, offsetY + 45);
-			sendFrame126(currentLevels[5]+"/"+ maximumLevels[5], 22499);
-			// System.out.println(gameScreenWidth);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	private void drawTabs(int xOffset,int yOffset) {
 		if (!isResized()) {
 			final int[][] sideIconCoordinates = new int[][] { { 17, 17 }, { 49, 15 }, { 83, 15 }, { 113, 13 },
@@ -7045,6 +6969,11 @@ public class Client extends GameEngine implements RSClient {
 				socketStream.close();
 		} catch (Exception _ex) {
 		}
+		try {
+			osrsSpriteCache.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		socketStream = null;
 		stopMidi();
 //		if (mouseDetection != null)
@@ -9369,9 +9298,11 @@ public class Client extends GameEngine implements RSClient {
 		return false;
 	}
 
-	private boolean stackTabs() {
+	public static boolean stackTabs() {
 		return !(canvasWidth >= 1100);
 	}
+
+
 
 	private void processRightClick() {
 		if (loggedIn) {
@@ -10832,6 +10763,13 @@ public class Client extends GameEngine implements RSClient {
 			drawLoadingText(20, "Loading Archives...");
 
 			loadTitleScreen();
+			try {
+				Path spriteDataPath = new File(Signlink.getCacheDirectory(),"osrs_sprites.dat").toPath();
+				Path spriteMetaPath =  new File(Signlink.getCacheDirectory(),"osrs_sprites.idx").toPath();
+				osrsSpriteCache.init(spriteDataPath.toFile(), spriteMetaPath.toFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			createScreenImages();
 			FileArchive streamLoader = streamLoaderForName(2, "config");
 			FileArchive streamLoader_1 = streamLoaderForName(3, "interface");
@@ -14752,7 +14690,7 @@ public class Client extends GameEngine implements RSClient {
 	public Sprite worldMap1, worldMap2, worldMap3;
 
 	private boolean specialHover;
-	private int specialEnabled;
+	public int specialEnabled;
 	public int specialAttack=100;
 
 	private void drawSpecialOrb(int xOffset) {
@@ -14910,7 +14848,7 @@ public class Client extends GameEngine implements RSClient {
 		if (Configuration.osbuddyGameframe) {
 			//loadSpecialOrb(xOffset);
 		}
-		Rasterizer2D.drawAlphaBox(xOffset, 0, 1, 200, 0x332B16, 250);
+
 	}
 
 	public boolean runClicked = false;
@@ -17884,8 +17822,6 @@ public class Client extends GameEngine implements RSClient {
 			HoverMenuManager.drawHintMenu();
 		}
 
-		viewportInterfaceCallback();
-
 		if (getUserSettings().isGroundItemOverlay() && openInterfaceID == -1) {
 			displayGroundItems();
 		}
@@ -17897,6 +17833,9 @@ public class Client extends GameEngine implements RSClient {
 		yCameraPos = j1;
 		yCameraCurve = k1;
 		xCameraCurve = l1;
+
+		viewportInterfaceCallback();
+
 	}
 
 	private void viewportInterfaceCallback() {
@@ -19278,10 +19217,14 @@ public class Client extends GameEngine implements RSClient {
 		return ItemDefinition.lookup(id);
 	}
 
+	public static final OsrsSpriteCache osrsSpriteCache = new OsrsSpriteCache();
+
 
 	@Override
 	public RSSpritePixels[] getSprites(IndexDataBase source, int archiveId, int fileId) {
-		return null;
+		osrsSpriteCache.lookup(archiveId);
+		return osrsSpriteCache.getSprites();
+
 	}
 
 	@Override
@@ -19487,7 +19430,7 @@ public class Client extends GameEngine implements RSClient {
 
 	@Override
 	public int getEnergy() {
-		return 0;
+		return Integer.parseInt(RSInterface.interfaceCache[22539].message.replaceAll("%", ""));
 	}
 
 	@Override

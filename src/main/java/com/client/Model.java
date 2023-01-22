@@ -684,7 +684,7 @@ public class Model extends Renderable implements RSModel {
 		vertexNormalsZ = model.vertexNormalsZ;
 		faceTextureUVCoordinates = model.faceTextureUVCoordinates;
 
-		model.resetBounds();
+		resetBounds();
 	}
 
 	private int getFirstIdenticalVertexId(final Model model, final int vertex) {
@@ -2842,7 +2842,7 @@ public class Model extends Renderable implements RSModel {
 
 	@Override
 	public int getBottomY() {
-		return modelBaseY;
+		return maxY;
 	}
 
 	private void vertexNormals()
