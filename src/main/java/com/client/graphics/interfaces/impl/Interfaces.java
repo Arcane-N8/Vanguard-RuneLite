@@ -1665,7 +1665,7 @@ public final class Interfaces extends RSInterface {
 		rsi.actions[3] = "Offer All";
 		rsi.actions[4] = "Offer X";
 		rsi.centerText = true;
-		rsi.aBoolean227 = false;
+		rsi.filled = false;
 		rsi.aBoolean235 = false;
 		rsi.usableItemInterface = false;
 		rsi.isInventoryInterface = false;
@@ -1843,7 +1843,7 @@ public final class Interfaces extends RSInterface {
 		rsinterface.spritesX[0] = 0;
 		rsinterface.actions[0] = "Cancel";
 		rsinterface.centerText = false;
-		rsinterface.aBoolean227 = false;
+		rsinterface.filled = false;
 		rsinterface.aBoolean235 = false;
 		rsinterface.usableItemInterface = false;
 		rsinterface.isInventoryInterface = false;
@@ -2004,7 +2004,7 @@ public final class Interfaces extends RSInterface {
 			rsi.actions[4] = "Buy X";
 		}
 		rsi.centerText = true;
-		rsi.aBoolean227 = false;
+		rsi.filled = false;
 		rsi.aBoolean235 = false;
 		rsi.usableItemInterface = false;
 		rsi.isInventoryInterface = false;
@@ -3195,7 +3195,7 @@ interfaceId+=5000;
 		rsinterface.contentType = 0;
 		rsinterface.width = 130;
 		rsinterface.height = 197;
-		rsinterface.aByte254 = 0;
+		rsinterface.opacity = 0;
 		rsinterface.mOverInterToTrigger = -1;
 		rsinterface.scrollMax = 199;
 		rsinterface.totalChildren(1);
@@ -5155,12 +5155,12 @@ interfaceId+=5000;
 	public static void addPixels(int id, int color, int width, int height, int alpha, boolean filled) {
 		RSInterface rsi = addInterface(id);
 		rsi.type = 3;
-		rsi.aByte254 = (byte)alpha;
+		rsi.opacity = (byte)alpha;
 		rsi.textColor = color;
 		rsi.anInt216 = color;
 		rsi.secondaryColor = color;
 		rsi.anInt239 = color;
-		rsi.aBoolean227 = filled;
+		rsi.filled = filled;
 		rsi.width = width;
 		rsi.height = height;
 	}

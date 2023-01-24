@@ -7,6 +7,83 @@ import static com.client.MathUtils.map;
 
 public class Rasterizer2D extends Cacheable implements RSRasterizer2D {
 
+
+    public static void drawTransparentBoxOutline(int leftX, int topY, int width, int height, int rgbColour, int opacity) {
+        drawTransparentHorizontalLine(leftX, topY, width, rgbColour, opacity);
+        drawTransparentHorizontalLine(leftX, topY + height - 1, width, rgbColour, opacity);
+        if(height >= 3) {
+            drawTransparentVerticalLine(leftX, topY + 1, height - 2, rgbColour, opacity);
+            drawTransparentVerticalLine(leftX + width - 1, topY + 1, height - 2, rgbColour, opacity);
+        }
+    }
+
+    /**
+     * Draws a transparent coloured horizontal line in the drawingArea.
+     * @param xPosition The start X-Position of the line.
+     * @param yPosition The Y-Position of the line.
+     * @param width The width of the line.
+     * @param rgbColour The colour of the line.
+     * @param opacity The opacity value ranging from 0 to 256.
+     */
+    public static void drawTransparentHorizontalLine(int xPosition, int yPosition, int width, int rgbColour, int opacity) {
+        if(yPosition < topY || yPosition >= bottomY) {
+            return;
+        }
+        if(xPosition < leftX) {
+            width -= leftX - xPosition;
+            xPosition = leftX;
+        }
+        if(xPosition + width > bottomX) {
+            width = bottomX - xPosition;
+        }
+        final int transparency = 256 - opacity;
+        final int red = (rgbColour >> 16 & 0xff) * opacity;
+        final int green = (rgbColour >> 8 & 0xff) * opacity;
+        final int blue = (rgbColour & 0xff) * opacity;
+        int pixelIndex = xPosition + yPosition * Rasterizer2D.width;
+        for(int i = 0; i < width; i++) {
+            final int otherRed = (pixels[pixelIndex] >> 16 & 0xff) * transparency;
+            final int otherGreen = (pixels[pixelIndex] >> 8 & 0xff) * transparency;
+            final int otherBlue = (pixels[pixelIndex] & 0xff) * transparency;
+            final int transparentColour = (red + otherRed >> 8 << 16) + (green + otherGreen >> 8 << 8) + (blue + otherBlue >> 8);
+            drawAlpha(pixels, pixelIndex, transparentColour, opacity);
+        }
+    }
+
+    /**
+     * Draws a transparent coloured vertical line in the drawingArea.
+     * @param xPosition The X-Position of the line.
+     * @param yPosition The start Y-Position of the line.
+     * @param height The height of the line.
+     * @param rgbColour The colour of the line.
+     * @param opacity The opacity value ranging from 0 to 256.
+     */
+    public static void drawTransparentVerticalLine(int xPosition, int yPosition, int height, int rgbColour, int opacity) {
+        if(xPosition < leftX || xPosition >= bottomX) {
+            return;
+        }
+        if(yPosition < topY) {
+            height -= topY - yPosition;
+            yPosition = topY;
+        }
+        if(yPosition + height > bottomY) {
+            height = bottomY - yPosition;
+        }
+        final int transparency = 256 - opacity;
+        final int red = (rgbColour >> 16 & 0xff) * opacity;
+        final int green = (rgbColour >> 8 & 0xff) * opacity;
+        final int blue = (rgbColour & 0xff) * opacity;
+        int pixelIndex = xPosition + yPosition * width;
+        for(int i = 0; i < height; i++) {
+            final int otherRed = (pixels[pixelIndex] >> 16 & 0xff) * transparency;
+            final int otherGreen = (pixels[pixelIndex] >> 8 & 0xff) * transparency;
+            final int otherBlue = (pixels[pixelIndex] & 0xff) * transparency;
+            final int transparentColour = (red + otherRed >> 8 << 16) + (green + otherGreen >> 8 << 8) + (blue + otherBlue >> 8);
+            drawAlpha(pixels, pixelIndex, transparentColour, opacity);
+            pixelIndex += width;
+        }
+    }
+
     public static void drawItemBox(int leftX, int topY, int width, int height, int rgbColour) {
         if (leftX < Rasterizer2D.leftX) {
             width -= Rasterizer2D.leftX - leftX;

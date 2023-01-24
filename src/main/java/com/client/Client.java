@@ -12214,17 +12214,20 @@ public class Client extends GameEngine implements RSClient {
 								if (flag && class9_1.anInt216 != 0)
 									colour = class9_1.anInt216;
 							}
-							if (class9_1.aByte254 == 0) {
-								if (class9_1.aBoolean227)
-									Rasterizer2D.drawPixels(class9_1.height, _y, _x, colour, class9_1.width);
+							if (class9_1.opacity == 0) {
+								if (class9_1.filled)
+									Rasterizer2D.drawBox(_x, _y, class9_1.width, class9_1.height, colour
+									);
 								else
-									Rasterizer2D.fillPixels(_x, class9_1.width, class9_1.height, colour, _y);
-							} else if (class9_1.aBoolean227)
-								Rasterizer2D.method335(colour, _y, class9_1.width, class9_1.height,
-										256 - (class9_1.aByte254 & 0xff), _x);
+									Rasterizer2D.drawBoxOutline(_x, _y, class9_1.width,
+											class9_1.height, colour);
+							} else if (class9_1.filled)
+								Rasterizer2D.drawTransparentBox(_x, _y, class9_1.width, class9_1.height, colour,
+										256 - (class9_1.opacity & 0xff));
 							else
-								Rasterizer2D.method338(_y, class9_1.height, 256 - (class9_1.aByte254 & 0xff), colour,
-										class9_1.width, _x);
+								Rasterizer2D.drawTransparentBoxOutline(_x, _y, class9_1.width, class9_1.height,
+										colour, 256 - (class9_1.opacity & 0xff)
+								);
 						} else if (class9_1.type == 4 || class9_1.type == RSInterface.TYPE_TEXT_DRAW_FROM_LEFT) {
 							TextDrawingArea textDrawingArea = class9_1.textDrawingAreas;
 							String s = class9_1.message;
