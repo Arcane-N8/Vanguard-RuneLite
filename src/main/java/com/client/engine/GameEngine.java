@@ -26,7 +26,6 @@ import java.net.URL;
 
 public abstract class GameEngine extends Applet implements Runnable, WindowListener, RSGameEngine, FocusListener {
 
-
     MouseWheelHandler mouseWheelHandler;
     public static TaskHandler taskHandler;
     static GameEngine gameEngine;
@@ -203,10 +202,6 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
         }
     }
 
-    protected final void setUpKeyboard() {
-        KeyHandler.instance.method355(this.canvas);
-    }
-
     protected abstract void resizeGame();
 
     void clearBackground() {
@@ -292,13 +287,17 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
             setFullRedraw(false);
             return;
         }
-        KeyHandler.instance.method352(this.canvas);
+        this.canvas.removeMouseListener(MouseHandler.instance);
+        this.canvas.removeMouseMotionListener(MouseHandler.instance);
+        this.canvas.removeFocusListener(MouseHandler.instance);
         MouseHandler.currentButton = 0;
         if (this.mouseWheelHandler != null) {
             this.mouseWheelHandler.removeFrom(this.canvas);
         }
         addCanvas();
-        KeyHandler.instance.method352(this.canvas);
+        this.addMouseListener(MouseHandler.instance);
+        this.addMouseMotionListener(MouseHandler.instance);
+        this.addFocusListener(MouseHandler.instance);
         if (this.mouseWheelHandler != null) {
             this.mouseWheelHandler.addTo(this.canvas);
         }
@@ -380,7 +379,6 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
         }
         isCanvasInvalid = false;
         field185 = method2692();
-        setUpKeyboard();
     }
 
 
@@ -532,7 +530,7 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
                 imageGraphics.drawString(var2, (304 - loginScreenFontMetrics.stringWidth(var2)) / 2, 22);
                 graphics.drawImage(image, canvasWidth / 2 - 152, canvasHeight / 2 - 18, null);
             } catch (Exception exception) {
-                int centerX = canvasWidth / 2 - 152;
+/*                int centerX = canvasWidth / 2 - 152;
                 int centerY = canvasHeight / 2 - 18;
                 graphics.setColor(color);
                 graphics.drawRect(centerX, centerY, 303, 33);
@@ -542,7 +540,7 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
                 graphics.fillRect(var1 * 3 + centerX + 2, centerY + 2, 300 - var1 * 3, 30);
                 graphics.setFont(fontHelvetica);
                 graphics.setColor(Color.white);
-                graphics.drawString(var2, centerX + (304 - loginScreenFontMetrics.stringWidth(var2)) / 2, centerY + 22);
+                graphics.drawString(var2, centerX + (304 - loginScreenFontMetrics.stringWidth(var2)) / 2, centerY + 22);*/
             }
         } catch (Exception exception) {
             canvas.repaint();
@@ -720,6 +718,9 @@ public abstract class GameEngine extends Applet implements Runnable, WindowListe
     public Clipboard clipboard;
 
     public final void setupKeys() {
+        canvas.setFocusTraversalKeysEnabled(false);
+        this.canvas.addKeyListener(KeyHandler.instance);
+        this.canvas.addFocusListener(KeyHandler.instance);
         setUpClipboard();
     }
 
