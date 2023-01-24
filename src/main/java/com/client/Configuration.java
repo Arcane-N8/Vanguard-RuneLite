@@ -9,7 +9,7 @@ public class Configuration {
 	public static boolean LOCAL_HOST = false;// Change to false for live client.
 	public static boolean DEBUG_MODE = false;
 	public static final int CLIENT_VERSION = 231;
-	public static final int CACHE_VERSION = 108; // Change this up one when making cache updates.
+	public static final int CACHE_VERSION = 109; // Change this up one when making cache updates.
 	public static final String CACHE_LINK = "http://vanguard317.com/resources/cache.zip";
 	public static final int SERVER_VERSION = 1; //this is the current one src old here
 	public static final String CLIENT_TITLE = "Vanguard";
