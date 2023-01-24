@@ -5,7 +5,7 @@ import com.client.RSFont;
 import com.client.Rasterizer2D;
 import com.client.Sprite;
 import com.client.definitions.ItemDefinition;
-import com.client.engine.impl.MouseHandler;
+import com.client.itembonus.ItemBonusDefinitionLoader;
 import com.client.model.Items;
 
 import java.util.Arrays;
@@ -253,17 +253,28 @@ public class HoverMenuManager {
     }
 
     public static void drawHintMenu() {
-        int mouseX = MouseHandler.mouseX;
-        int mouseY = MouseHandler.mouseY;
-
+        int mouseX = Client.instance.getMouseX();
+        int mouseY = Client.instance.getMouseY();
         if (!canDraw()) {
             return;
         }
 
-        if (Client.instance.getMouseY() < Client.canvasHeight - 450 && Client.instance.getMouseX() < Client.canvasWidth - 200) {
-            return;
+        if (Client.instance.isResized()) {
+            if (Client.instance.getMouseY() < Client.canvasHeight - 450
+                    && Client.instance.getMouseX() < Client.canvasWidth - 200) {
+                return;
+            }
+            mouseX -= 100;
+            mouseY -= 50;
         }
 
+
+
+
+        if (Client.controlIsDown) {
+            drawStatMenu();
+            return;
+        }
 
 
         if (lastDraw != hintId) {
@@ -335,7 +346,8 @@ public class HoverMenuManager {
         Rasterizer2D.drawTransparentBox(mouseX + 1, mouseY + 6, 150, 35, 0x000000, 90);
 
         Client.instance.newSmallFont.drawBasicString("@lre@" + hintName, mouseX + 4, mouseY + 18, BACKGROUND_COLOUR, 1);
-        Client.instance.newSmallFont.drawBasicString("Press CTRL to view the stats", mouseX + 4, mouseY + 35, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Press CTRL to view the stats", mouseX + 4, mouseY + 35,
+                BACKGROUND_COLOUR, 1);
     }
 
 
@@ -371,6 +383,116 @@ public class HoverMenuManager {
         }
     }
 
+
+
+
+
+
+    public static void drawStatMenu() {
+        if (!canDraw()) {
+            return;
+        }
+
+        if(ItemBonusDefinitionLoader.getItemBonusDefinition(hintId) == null) {
+            HoverMenuManager.reset();
+            return;
+        }
+
+        int mouseX = Client.instance.getMouseX();
+        int mouseY = Client.instance.getMouseY();
+        if (!Client.instance.isResized()) {
+            //if (Client.isFixedScreen()) {
+            mouseX -= 100;
+            mouseY -= 50;
+        }
+        if (Client.instance.isResized()) {
+            //if (Client.isFixedScreen()) {
+            if (Client.instance.getMouseY() < 214 || Client.instance.getMouseX() < 561) {
+                return;
+            }
+            mouseX -= 516;
+            mouseY -= 158;
+            if (Client.instance.getMouseX() > 600 && Client.instance.getMouseX() < 685) {
+                mouseX -= 60;
+
+            }
+            if (Client.instance.getMouseX() > 685) {
+                mouseX -= 120;
+            }
+            if (Client.instance.getMouseY() > 392) {
+                mouseY -= 130;
+            }
+        }
+
+        short stabAtk = ItemBonusDefinitionLoader.getItemBonuses(hintId)[0];
+        int slashAtk = ItemBonusDefinitionLoader.getItemBonuses(hintId)[1];
+        int crushAtk = ItemBonusDefinitionLoader.getItemBonuses(hintId)[2];
+        int magicAtk = ItemBonusDefinitionLoader.getItemBonuses(hintId)[3];
+        int rangedAtk = ItemBonusDefinitionLoader.getItemBonuses(hintId)[4];
+
+        int stabDef = ItemBonusDefinitionLoader.getItemBonuses(hintId)[5];
+        int slashDef = ItemBonusDefinitionLoader.getItemBonuses(hintId)[6];
+        int crushDef = ItemBonusDefinitionLoader.getItemBonuses(hintId)[7];
+        int magicDef = ItemBonusDefinitionLoader.getItemBonuses(hintId)[8];
+        int rangedDef = ItemBonusDefinitionLoader.getItemBonuses(hintId)[9];
+
+        int prayerBonus = ItemBonusDefinitionLoader.getItemBonuses(hintId)[11];
+        int strengthBonus = ItemBonusDefinitionLoader.getItemBonuses(hintId)[10];
+
+        Rasterizer2D.drawBoxOutline(mouseX, mouseY + 5, 150, 120, 0x696969);
+        Rasterizer2D.drawTransparentBox(mouseX + 1, mouseY + 6, 150, 121, 0x000000, 90);
+
+        Client.instance.newSmallFont.drawBasicString("@lre@" + hintName, mouseX + 4, mouseY + 18, BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("ATK:", mouseX + 62, mouseY + 30, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("DEF:", mouseX + 112, mouseY + 30, BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Stab", mouseX + 2, mouseY + 43, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(stabAtk), mouseX + 62, mouseY + 43,
+                BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(stabDef), mouseX + 112, mouseY + 43,
+                BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Slash", mouseX + 2, mouseY + 56, 0xFF00FF, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(slashAtk), mouseX + 62, mouseY + 56,
+                BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(slashDef), mouseX + 112, mouseY + 56,
+                BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Crush", mouseX + 2, mouseY + 69, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(crushAtk), mouseX + 62, mouseY + 69,
+                BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(crushDef), mouseX + 112, mouseY + 69,
+                BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Magic", mouseX + 2, mouseY + 80, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(magicAtk), mouseX + 62, mouseY + 80,
+                BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(magicDef), mouseX + 112, mouseY + 80,
+                BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Ranged", mouseX + 2, mouseY + 95, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(rangedAtk), mouseX + 62, mouseY + 95,
+                BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(rangedDef), mouseX + 112, mouseY + 95,
+                BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Strength", mouseX + 2, mouseY + 108, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Prayer", mouseX + 2, mouseY + 121, BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(strengthBonus), mouseX + 112, mouseY + 108,
+                BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString(Integer.toString(prayerBonus), mouseX + 112, mouseY + 121,
+                BACKGROUND_COLOUR, 1);
+
+        Client.instance.newSmallFont.drawBasicString("Stab", mouseX + 2, mouseY + 43, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Slash", mouseX + 2, mouseY + 56, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Crush", mouseX + 2, mouseY + 69, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Magic", mouseX + 2, mouseY + 80, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Ranged", mouseX + 2, mouseY + 95, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Strength", mouseX + 2, mouseY + 108, BACKGROUND_COLOUR, 1);
+        Client.instance.newSmallFont.drawBasicString("Prayer", mouseX + 2, mouseY + 121, BACKGROUND_COLOUR, 1);
+    }
 
 
 

@@ -68,7 +68,7 @@ public class Rasterizer2D extends Cacheable implements RSRasterizer2D {
 			}
 			int pos = x1 + iy * width;
 			for (int ix = x1; ix <= x2; ix++) {
-				pixels[pos++] = color;
+                drawAlpha(pixels, pos++, color, 255);
 			}
 		}
 	}

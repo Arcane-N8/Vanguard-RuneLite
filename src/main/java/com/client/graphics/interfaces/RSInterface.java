@@ -3007,30 +3007,15 @@ public class RSInterface {
 	}
 
 	public static void drawBlackBox(int xPos, int yPos) {
-		// /Light Coloured Borders\\\
-		Rasterizer2D.drawPixels(71, yPos - 1, xPos - 2, 0x726451, 1); // Left
-		// line
-		Rasterizer2D.drawPixels(69, yPos, xPos + 174, 0x726451, 1); // Right line
-		Rasterizer2D.drawPixels(1, yPos - 2, xPos - 2, 0x726451, 178); // Top
-		// Line
-		Rasterizer2D.drawPixels(1, yPos + 68, xPos, 0x726451, 174); // Bottom
-		// Line
-
-		// /Dark Coloured Borders\\\
-		Rasterizer2D.drawPixels(71, yPos - 1, xPos - 1, 0x2E2B23, 1); // Left
-		// line
-		Rasterizer2D.drawPixels(71, yPos - 1, xPos + 175, 0x2E2B23, 1); // Right
-		// line
-		Rasterizer2D.drawPixels(1, yPos - 1, xPos, 0x2E2B23, 175); // Top line
-		Rasterizer2D.drawPixels(1, yPos + 69, xPos, 0x2E2B23, 175); // Top line
-
-		// /Black Box\\\
-		Rasterizer2D.method335(0x000000, yPos, 174, 68, 220, xPos); // Yes
-		// method335
-		// is
-		// galkons
-		// opacity
-		// method
+		Rasterizer2D.drawBox(xPos - 2, yPos - 1, 1, 71, 0x726451);
+		Rasterizer2D.drawBox(xPos + 174, yPos, 1, 69, 0x726451);
+		Rasterizer2D.drawBox(xPos - 2, yPos - 2, 178, 1, 0x726451);
+		Rasterizer2D.drawBox(xPos, yPos + 68, 174, 1, 0x726451);
+		Rasterizer2D.drawBox(xPos - 1, yPos - 1, 1, 71, 0x2E2B23);
+		Rasterizer2D.drawBox(xPos + 175, yPos - 1, 1, 71, 0x2E2B23);
+		Rasterizer2D.drawBox(xPos, yPos - 1, 175, 1, 0x2E2B23);
+		Rasterizer2D.drawBox(xPos, yPos + 69, 175, 1, 0x2E2B23);
+		Rasterizer2D.drawTransparentBox(xPos, yPos, 174, 68, 0, 220);
 	}
 
 	public Sprite disabledHover;

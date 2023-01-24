@@ -8195,16 +8195,10 @@ public class Client extends GameEngine implements RSClient {
 			if(MouseHandler.mouseY < 214 || MouseHandler.mouseX < 561){
 				return;
 			}
-			mouseX-=516;
+
 			// mouseX-=491;
 			mouseY-=158;
-			if(MouseHandler.mouseX > 600 && MouseHandler.mouseX < 685) {
-				mouseX-=60;
 
-			}
-			if(MouseHandler.mouseX > 685){
-				mouseX-=120;
-			}
 		}
 
 
@@ -15647,10 +15641,11 @@ public class Client extends GameEngine implements RSClient {
 		// System.out.println("saveClickX = " + super.saveClickX + ", saveClickY = " +
 		// super.saveClickY);
 		int j = canvasHeight / 2 - 40;
+
 		j += 30;
 		j += 25;
-		if (MouseHandler.clickMode3 == 1 && MouseHandler.saveClickX >= 272 && MouseHandler.saveClickX <= 525 && MouseHandler.saveClickY >= 184
-			&& MouseHandler.saveClickY <= 204)
+		if (MouseHandler.clickMode3 == 1 && MouseHandler.saveClickX >= 272 && MouseHandler.saveClickX <= 525 && MouseHandler.saveClickY >= 206
+			&& MouseHandler.saveClickY <= 231)
 			loginScreenCursorPos = 0;
 		j += 15;
 		if (MouseHandler.clickMode3 == 1 && MouseHandler.saveClickX >= 272 && MouseHandler.saveClickX <= 525 && MouseHandler.saveClickY >= 247
