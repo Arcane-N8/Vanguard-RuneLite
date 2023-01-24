@@ -26,7 +26,7 @@ public final class GameTimerHandler {
 	/**
 	 * Determines the amount of timers used.
 	 */
-	public static final byte AMOUNT_OF_TIMERS = 25;
+	public static final byte AMOUNT_OF_TIMERS = 26;
 	
 	/**
 	 * A {@link List} of {@link GameTimer} objects

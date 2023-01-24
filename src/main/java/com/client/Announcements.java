@@ -14,7 +14,7 @@ public class Announcements {
 
     private static String[] announcements = {
             "Welcome to Vanguard!",
-            "Owners: Grim & Dbcrazy",
+            "Owner: Grim",
             "Be sure to ::vote every 12 hours!",
             "Keep up with updates & more at ::discord!"
     };

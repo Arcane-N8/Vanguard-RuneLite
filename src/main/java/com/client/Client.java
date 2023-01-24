@@ -4707,7 +4707,9 @@ public class Client extends GameEngine implements RSClient {
 	public Sprite logo, loginBackground;
 
 
-
+	private int getPixelAmt(int current, int pixels) {
+		return (int) (pixels * .01 * current);
+	}
 	Sprite background = new Sprite("loginscreen/background");
 	Sprite empty_bar = new Sprite("loginscreen/general/emptybar");
 	Sprite full_bar = new Sprite("loginscreen/general/fullbar");
@@ -4723,19 +4725,19 @@ public class Client extends GameEngine implements RSClient {
 
 		background.drawAdvancedSprite(0, 0);
 		int x = 765 / 2 - 543 / 2;
-		int y = 475 - 20 + 8;
+		int y = 8;
 		int width = 540;
-		int height = 32;
+		int height = 24;
 		double offset = 5.43;
-		empty_bar.drawAdvancedSprite(765 / 2 - width / 2, y + 11 - height / 2);
-		full_bar.drawAdvancedSprite(765 / 2 - width / 2, y + 11 - height / 2);
-		Rasterizer2D.drawAlphaGradient(x + ((int) Math.round(percentage * offset) / 2), y,
-			width - ((int) Math.round(percentage * offset) / 2), height, 0x000000, 0x000000, 200);
+		empty_bar.drawAdvancedSprite(765 / 2 - width / 2, y - height / 2);
+		full_bar.drawAdvancedSprite(765 / 2 - width / 2, y - height / 2);
+		Rasterizer2D.drawAlphaGradient(x, y,
+				getPixelAmt(width,percentage ), height, 0x000000, 0x000000, 200);
 		if (percentage >= 198) {
-			newBoldFont.drawCenteredString("Finished loading " + Configuration.CLIENT_TITLE, (765 / 2), y + height / 2, 0xffffff, 1);
+			newSmallFont.drawCenteredString("Loading - please wait (100%)", (765 / 2), y + 3 + height / 2, 0xEEF0D2, 1);
 		} else {
-			newBoldFont.drawCenteredString("Loading " + Configuration.CLIENT_TITLE + " - Please wait - " + (percentage / 2) + "%", (765 / 2),
-				y + height / 2, 0xffffff, 1);
+			newSmallFont.drawCenteredString("Loading - please wait (" + (percentage) + "%)", (765 / 2),
+					y + 3 + height / 2, 0xEEF0D2, 1);
 		}
 		rasterProvider.drawFull(0,0);
 	}

@@ -168,7 +168,7 @@ public final class ItemDefinition implements RSItemComposition {
 				copy(itemDef, 22375, 22374, "Mossy key");
 				break;
 			case 20999:
-				copy(itemDef, 20999, 25865, "Bow of Faerdhinen", "Wear");
+				copy(itemDef, 20999, 25865, "Bow of Faerdhinen", null, "Wear");
 				break;
 
 			case 33056:
@@ -281,7 +281,34 @@ public final class ItemDefinition implements RSItemComposition {
 				// itemDef.aByte205 = 3;
 				break;
 
-
+			case 6821:
+				itemDef.name = "Overload heart";
+				itemDef.modelId = 65061;
+				itemDef.zoom2d = 1168;
+				itemDef.xan2d = 96;
+				itemDef.yan2d = 1690;
+				itemDef.xOffset2d = 0;
+				itemDef.yOffset2d = 1;
+				itemDef.interfaceOptions = new String[5];
+				itemDef.interfaceOptions[0] = "Intake-power";
+				itemDef.interfaceOptions[1] = null;
+				itemDef.interfaceOptions[2] = null;
+				itemDef.glowColor = 0x000000;
+				break;
+			case 6902:
+				itemDef.name = "Prayer heart";
+				itemDef.modelId = 65060;
+				itemDef.zoom2d = 1168;
+				itemDef.xan2d = 96;
+				itemDef.yan2d = 1690;
+				itemDef.xOffset2d = 0;
+				itemDef.yOffset2d = 1;
+				itemDef.interfaceOptions = new String[5];
+				itemDef.interfaceOptions[0] = "Sip-on";
+				itemDef.interfaceOptions[1] = null;
+				itemDef.interfaceOptions[2] = null;
+				itemDef.glowColor = 0x00FF00;
+				break;
 
 
 			case 16011://Mini solak pet
@@ -597,6 +624,20 @@ public final class ItemDefinition implements RSItemComposition {
 				//itemDef.aByte205 = 3;
 				break;
 
+			case 11200:
+				itemDef.name = "Demon faceguard";
+				itemDef.modelId = 65050;
+				itemDef.maleModel0 = 65049;
+				itemDef.femaleModel0 = 65049;
+				itemDef.zoom2d = 984;
+				itemDef.xan2d = 126;
+				itemDef.yan2d = 129;
+				itemDef.xOffset2d = -1;
+				itemDef.yOffset2d = 1;
+				itemDef.interfaceOptions = new String[5];
+				itemDef.interfaceOptions[1] = "Wear";
+				itemDef.interfaceOptions[2] = null;
+				break;
 
 			case 34037:
 				itemDef.setDefaults();
