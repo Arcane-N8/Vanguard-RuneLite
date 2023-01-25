@@ -1919,7 +1919,7 @@ public class Model extends Renderable implements RSModel {
 	final void withinObject(boolean var25, boolean highlighted, long uid) {
 		final boolean gpu = Client.instance.isGpu() && Rasterizer3D.world;
 
-		if (diagonal3D < 1600) {
+		if (diagonal3D < 6000) {
 			for (int diagonalIndex = 0; diagonalIndex < diagonal3D; diagonalIndex++) {
 				depth[diagonalIndex] = 0;
 			}
@@ -2486,7 +2486,7 @@ public class Model extends Renderable implements RSModel {
 	static int vertexMovedX[] = new int[6500];
 	static int vertexMovedY[] = new int[6500];
 	static int vertexMovedZ[] = new int[6500];
-	static int depth[] = new int[1600];
+	static int depth[] = new int[6000];
 	static int faceLists[][] = new int[1600][512];
 	static int anIntArray1673[] = new int[12];
 	static int anIntArrayArray1674[][] = new int[12][2000];
